@@ -1,0 +1,189 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Intégration avec l'API Instagram Graph",
+    "version": "1.0.0",
+    "description": "Permet d'interagir avec Instagram pour publier du contenu, répondre aux messages et analyser les performances."
+  },
+  "paths": {
+    "/me": {
+      "get": {
+        "summary": "Obtenir les informations de mon compte Instagram",
+        "description": "Récupère des informations de base sur le compte, comme le nombre d'abonnés et le nom d'utilisateur.",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "followers_count,username"
+            },
+            "description": "Champs à récupérer (exemple : nombre d'abonnés, nom d'utilisateur)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informations du compte récupérées avec succès.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "17841400008460056",
+                  "username": "mon_nom_utilisateur",
+                  "followers_count": 1200
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/media": {
+      "post": {
+        "summary": "Publier du contenu sur Instagram",
+        "description": "Publie une photo ou une vidéo sur le compte Instagram.",
+        "parameters": [
+          {
+            "name": "image_url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "L'URL de l'image ou de la vidéo à publier."
+          },
+          {
+            "name": "caption",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "La légende accompagnant le contenu publié."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contenu publié avec succès.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "17896400000000000",
+                  "status": "Publié"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/messages": {
+      "post": {
+        "summary": "Répondre aux messages privés",
+        "description": "Envoie une réponse à un utilisateur via les DM d'Instagram.",
+        "parameters": [
+          {
+            "name": "recipient",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "L'identifiant de l'utilisateur à qui envoyer le message."
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Le message à envoyer."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message envoyé avec succès.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "recipient_id": "1234567890",
+                  "status": "Message envoyé"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/comments/{comment-id}/replies": {
+      "post": {
+        "summary": "Répondre à un commentaire",
+        "description": "Envoie une réponse à un commentaire spécifique sur une publication.",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "L'identifiant du commentaire auquel répondre."
+          },
+          {
+            "name": "message",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Le message de réponse."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Réponse envoyée avec succès.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "comment_id": "17896400000000001",
+                  "status": "Réponse envoyée"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Utiliser le token suivant pour l'authentification : IGQWROcWNBcXNDamVGcmlHU2hiUmpmdVFoeUw4Smg3eHVva1E3X3RjZAGFrbFBSdWZARUzEwWFhVVTZAtVmg2cFdBR3c2S0ZAKQ0pxWUt3VFhtaUlEdHBLY1JyZA2dpblVaOUc4WDRCT0I4aGk3MEo2dVhLZAmFzNTk1VlEZD"
+      }
+    }
+  }
+}
